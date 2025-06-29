@@ -1,0 +1,28 @@
+.section {
+  margin: 24px 0;
+  background-color: var(--color-black);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 10px;
+  color: white;
+}
+
+.cardGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 0 10px;
+}
+.collapse{
+    border: none;
+    color: var(--color-green);
+    font-size: 1rem;
+    background-color: black;
+    cursor: pointer;
+    
+}
