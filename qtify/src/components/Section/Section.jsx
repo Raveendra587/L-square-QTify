@@ -1,60 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Section.module.css";
-import axios from "axios";
 import Card from "../Card/Card";
 import Carousel from "../Carousel/Carousel";
 
-function Section({ title, endpoint }) {
-  const [albums, setAlbums] = useState([]);
-  const [collapsed, setCollapsed] = useState(false);
+function Section({ title, items, isSongSection = false, collapseEnabled = true }) {
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
-  useEffect(() => {
-    async function fetchAlbums() {
-      try {
-        const res = await axios.get(endpoint);
-        setAlbums(res.data);
-      } catch (err) {
-        console.error("Error fetching albums:", err);
-      }
-    }
-
-    fetchAlbums();
-  }, [endpoint]);
+  const handleToggle = () => setIsCollapsed(!isCollapsed);
 
   return (
     <div className={styles.section}>
-      <div className={styles.header}>
-        <h2>{title}</h2>
-        <button
-          className={styles.collapse}
-          onClick={() => setCollapsed((prev) => !prev)}
-        >
-          {collapsed ? "Show All" : "Collapse"}
-        </button>
-      </div>
+      {title && (
+        <div className={styles.header}>
+          <h2>{title}</h2>
+          {collapseEnabled && (
+            <button className={styles.collapse} onClick={handleToggle}>
+              {isCollapsed ? "Show all" : "Collapse"}
+            </button>
+          )}
+        </div>
+      )}
 
-      {!collapsed ? (
+      {isCollapsed ? (
+        <Carousel items={items} isSongSection={isSongSection} />
+      ) : (
         <div className={styles.cardGrid}>
-          {albums.map((album) => (
+          {items.map((item) => (
             <Card
-              key={album.id}
-              title={album.title}
-              image={album.image}
-              follows={album.follows}
+              key={item.id}
+              title={item.title}
+              image={item.image}
+              chipLabel={
+                isSongSection
+                  ? `${item.likes} Likes`
+                  : `${item.follows} Follows`
+              }
             />
           ))}
         </div>
-      ) : (
-        <Carousel
-          data={albums}
-          renderComponent={(album) => (
-            <Card
-              title={album.title}
-              image={album.image}
-              follows={album.follows}
-            />
-          )}
-        />
       )}
     </div>
   );

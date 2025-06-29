@@ -3,8 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import Card from "../Card/Card";
+import styles from "./Carousel.module.css";
 
-function Carousel({ data = [], renderComponent }) {
+function Carousel({ items, isSongSection = false }) {
   return (
     <Swiper
       modules={[Navigation]}
@@ -14,13 +16,19 @@ function Carousel({ data = [], renderComponent }) {
         320: { slidesPerView: 1 },
         640: { slidesPerView: 2 },
         768: { slidesPerView: 3 },
-        1024: { slidesPerView: 4 },
-        1280: { slidesPerView: 5 },
+        1024: { slidesPerView: 5 },
       }}
+      className={styles.swiper}
     >
-      {data.map((item) => (
+      {items.map((item) => (
         <SwiperSlide key={item.id}>
-          {renderComponent(item)}
+          <Card
+            title={item.title}
+            image={item.image}
+            chipLabel={
+              isSongSection ? `${item.likes} Likes` : `${item.follows} Follows`
+            }
+          />
         </SwiperSlide>
       ))}
     </Swiper>
