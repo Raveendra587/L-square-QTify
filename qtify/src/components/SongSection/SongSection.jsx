@@ -33,7 +33,7 @@ function SongSection() {
         value={selectedGenre}
         onChange={(e, newVal) => setSelectedGenre(newVal)}
         className={styles.tabs}
-        TabIndicatorProps={{ style: { backgroundColor: "black" } }}
+        TabIndicatorProps={{ style: { backgroundColor: "gray" } }}
       >
         {genres.map((genre) => (
           <Tab
